@@ -6,7 +6,7 @@ data "terraform_remote_state" "infra" {
 }
 
 locals {
-  dns_project = endswith(var.tsb_fqdn, ".gcp.cx.tetrate.info") ? "dns-terraform-sandbox" : data.terraform_remote_state.infra.outputs.project_id
+  dns_project = coalesce(var.gcp_dns_project, endswith(var.tsb_fqdn, ".gcp.cx.tetrate.info") ? "dns-terraform-sandbox" : data.terraform_remote_state.infra.outputs.project_id)
 }
 
 resource "google_service_account" "external_dns" {

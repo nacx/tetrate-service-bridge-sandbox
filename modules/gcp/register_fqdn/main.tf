@@ -23,17 +23,16 @@ resource "google_dns_record_set" "shared_fqdn" {
 
 ## Public DNS Zone
 
-resource "google_dns_managed_zone" "public" {
+data "google_dns_managed_zone" "public" {
   count     = local.public_zone ? 1 : 0
   project   = var.project_id
-  name      = local.zone_name
-  dns_name  = "${local.dns_name}."
+  name = local.zone_name
 }
 
 resource "google_dns_record_set" "public_fqdn" {
   count        = local.public_zone ? 1 : 0
   project      = var.project_id
-  managed_zone = google_dns_managed_zone.public[0].name
+  managed_zone = data.google_dns_managed_zone.public[0].name
   name         = "${var.fqdn}."
   type         = "A"
   ttl          = 300
