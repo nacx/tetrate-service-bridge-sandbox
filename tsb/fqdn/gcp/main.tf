@@ -10,6 +10,6 @@ module "register_fqdn" {
   dns_zone      = var.dns_zone
   fqdn          = var.fqdn
   address       = var.address
-  project_id    = data.terraform_remote_state.infra.outputs.project_id
+  project_id    = coalesce(var.gcp_dns_project, data.terraform_remote_state.infra.outputs.project_id)
   vpc_id        = reverse(split("/", data.terraform_remote_state.infra.outputs.vpc_id))[0]
 }

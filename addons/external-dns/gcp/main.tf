@@ -21,6 +21,6 @@ module "external_dns" {
   dns_provider               = "google"
   tsb_fqdn                   = var.tsb_fqdn
   dns_zone                   = replace(var.tsb_fqdn, "/^[^\\.]+\\./", "")  # Remove the first part of the fqdn
-  google_project             = data.terraform_remote_state.dns.outputs.dns_project
+  google_project             = coalesce(var.gcp_dns_project, data.terraform_remote_state.dns.outputs.dns_project)
   google_service_account_key = data.terraform_remote_state.dns.outputs.dns_credentials
 }

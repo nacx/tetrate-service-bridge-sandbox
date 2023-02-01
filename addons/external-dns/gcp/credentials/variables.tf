@@ -14,3 +14,7 @@ variable "tsb_mp" {
 variable "gcp_k8s_regions" {
   default = []
 }
+
+variable "gcp_dns_project" {
+  default = null
+}
