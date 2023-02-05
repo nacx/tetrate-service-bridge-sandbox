@@ -196,6 +196,14 @@ external-dns_%:
 .PHONY: destroy
 destroy: destroy_remote destroy_local  ## Destroy the environment and the local Terraform state and cache
 
+destroy_external_dns: destroy_external_dns_gcp  ## Destroy the credentials created by the External DNS add-on
+destroy_external_dns_%:
+	@/bin/sh -c '\
+		cd "addons/external-dns/$*/credentials"; \
+		terraform destroy ${terraform_apply_args} -var-file="../../../../terraform.tfvars.json"; \
+		cd "../../../.."; \
+		'
+
 .PHONY: destroy_remote
 destroy_remote:  ## Destroy the environment
 	@/bin/sh -c '\
