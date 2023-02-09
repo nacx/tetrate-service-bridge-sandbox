@@ -20,7 +20,10 @@ module "external_dns" {
   k8s_client_token           = data.terraform_remote_state.infra.outputs.token
   dns_provider               = "google"
   tsb_fqdn                   = var.tsb_fqdn
-  dns_zone                   = replace(var.tsb_fqdn, "/^[^\\.]+\\./", "")  # Remove the first part of the fqdn
+  dns_zone                   = replace(var.tsb_fqdn, "/^[^\\.]+\\./", "") # Remove the first part of the fqdn
+  sources                    = var.external_dns_sources
+  annotation_filter          = var.external_dns_annotation_filter
+  label_filter               = var.external_dns_label_filter
   google_project             = coalesce(var.gcp_dns_project, data.terraform_remote_state.dns.outputs.dns_project)
   google_service_account_key = data.terraform_remote_state.dns.outputs.dns_credentials
 }

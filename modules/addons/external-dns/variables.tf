@@ -19,6 +19,15 @@ variable "dns_provider" {
 variable "dns_zone" {
 }
 
+variable "annotation_filter" {
+}
+
+variable "label_filter" {
+}
+
+variable "sources" {
+}
+
 # Provider specific variables. All of them should be optional to allow
 # configuring only the ones for the provider being used.
 

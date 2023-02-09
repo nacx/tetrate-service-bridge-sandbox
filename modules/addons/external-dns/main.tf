@@ -39,7 +39,17 @@ resource "helm_release" "external_dns" {
 
   set {
     name  = "sources"
-    value = "{service,ingress,istio-gateway}"
+    value = "{${var.sources}}"
+  }
+
+  set {
+    name  = "annotationFilter"
+    value = var.annotation_filter
+  }
+
+  set {
+    name  = "labelFilter"
+    value = var.label_filter
   }
 
   values = [templatefile("${path.module}/manifests/values-${var.dns_provider}.yaml.tmpl", {
